@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KITTY🐈</title>
+    <title>KITTY🐈 & DOGGO🐕</title>
     <style>
         body{
             height: 100vh;
@@ -27,21 +27,64 @@
             max-height: 66px;
             border-radius: 10px;
             cursor: pointer;
+            font-size: 30px;
+            transition: 0.3s ease;
+        }
+
+        button:hover{
+            transform: translateY(-2px);
+            background-color: lightblue;
+        }
+
+        .buttons{
+            display: flex;
+            gap: 2rem;
         }
     </style>
 </head>
 <body>
     <div class="picture">
     </div>
-    <button onclick="get()">Click to Generate</button>
+    <div class="buttons">
+        <button onclick="get()">Cats</button>
+        <button onclick="get1()">Dogs</button>
+    </div>
     <script>
         const link="https://api.thecatapi.com/v1/images/search"
         let picture= document.querySelector(".picture")
         async function get() {
-            let response= await fetch(link)
-            let data= await response.json()
-            //console.log(data[0].url)
-            picture.innerHTML=`<img src="${data[0].url}">`
+            try{
+                let response= await fetch(link)
+                let data= await response.json()
+                //console.log(data[0].url)
+                if(data[0].url){
+                    picture.innerHTML=`<img src="${data[0].url}">`
+                }
+                else{
+                    picture.innerHTML="Please try again"
+                }
+            }
+            catch(error)
+            {
+                picture.innerHTML=`Error ${error}`
+            }
+        }
+        async function get1() {
+            try{
+                let response= await fetch("https://api.thedogapi.com/v1/images/search?limit=2 ")
+                let data= await response.json()
+                //console.log(data[0].url)
+                if(data[0].url){
+                    picture.innerHTML=`<img src="${data[0].url}">`
+                }
+                else{
+                    picture.innerHTML="Please try again"
+                }
+            }
+            catch(error)
+            {
+                picture.innerHTML=`Error ${error}`
+            }
         }
     </script>
 </body>
